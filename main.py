@@ -1,6 +1,6 @@
 from pathlib import Path
 import argparse
-from shutil import copy2  # Використовуйте copy2 для копіювання файлів разом з метаданими
+from shutil import copy2
 from threading import Thread
 import logging
 from time import sleep  # Імпортуємо sleep для використання
@@ -16,26 +16,26 @@ output = Path(args.get('output'))
 
 folders = []
 
-def parse_folder(path: Path):  # Виправлено помилку в назві функції
+def parse_folder(path: Path):  
     for elem in path.iterdir():
         if elem.is_dir():
             folders.append(elem)
-            parse_folder(elem)  # Виправлено помилку в виклику рекурсивної функції
+            parse_folder(elem) 
 
 def copy_file(path: Path):
     for elem in path.iterdir():
         if elem.is_file():
             pref = elem.suffix
             if pref:
-                pref_path = output / pref[1:]    # Виберіть перший елемент списку (якщо він існує)
+                pref_path = output / pref[1:]  
                 try:
                     pref_path.mkdir(exist_ok=True, parents=True)
-                    copy2(elem, pref_path / elem.name)  # Використовуємо copy2 для копіювання файлу
+                    copy2(elem, pref_path / elem.name)  
                 except OSError as e:
                     logging.error(e)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(threadName)s %(message)s")  # Виправлено помилку в форматі
+    logging.basicConfig(level=logging.INFO, format="%(threadName)s %(message)s")
     folders.append(source)
     parse_folder(source)
     sleep(3)
